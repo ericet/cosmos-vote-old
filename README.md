@@ -1,4 +1,6 @@
 # cosmos-vote Cosmos生态自动批量投票
+Cosmos生态自动批量投票网页版 自动找开放的提案，自动投票 目前支持Cosmos, Osmosis, Juno, Stargaze, Chihuahua, Akash
+
 网站: https://ericet.github.io/cosmos-vote/
 * 填入助记词（如果多号，一行一个），选择投票的链和投票选项，点击“Auto Vote"
 
