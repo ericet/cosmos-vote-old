@@ -6,3 +6,4 @@
 * 下载代码: https://github.com/ericet/cosmos-vote/archive/refs/heads/gh-pages.zip
 * 解压后打开index.html,就可以使用了
 
+网页版是为了让那些不懂运行脚本的人使用起来方便，如果你是进阶玩家，可以使用https://github.com/ericet/cosmos-learn 库里的getProposalsAndVote.js 运行
