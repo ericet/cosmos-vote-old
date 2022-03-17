@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Cosmos Votes</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <style>
+        .Site-content {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Site-content">
+        <div style="text-align: center;">
+            <div class="clearfix content-heading">
+                <h1 class="title is-2" style="display: inline;">Cosmos Votes</h1>
+            </div>
+            <div>
+                <a target="_blank" href="https://twitter.com/ericet369"><i class="fa fa-twitter fa-2x"
+                        aria-hidden="true"></i></a>
+                <a href="https://github.com/ericet/cosmos-vote" target="_blank"><i class="fa fa-github fa-2x"
+                        aria-hidden="true"></i>
+                </a>
+                <a href="https://www.mintscan.io/cosmos/account/cosmos1q23hjqp3fv3v2fjxp3zvknelx53qfc4v6uzq6w"
+                    target="_blank"><i class="fa fa-coffee fa-2x" aria-hidden="true"></i></a>
+
+            </div>
+
+        </div>
+        <br />
+        <br />
+        <div class=" container px-4">
+            <div class="row gx-5">
+                <div class="col">
+                    <h4>Mnemonics</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea id="mnemonics" autocomplete="off" class="form-control"
+                                    placeholder="One mnemonic per line" rows="10" required /></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="vote" class="field has-addons has-addons-centered">
+
+                <h4>Chain</h4>
+                <div class="form-group">
+                    <select name="chainId" id="chainId" autocomplete="off" class="form-control">
+                        <option value="all">All Available Chains</option>
+                        <option value="cosmoshub-4">Cosmos</option>
+                        <option value="osmosis-1">Osmosis</option>
+                        <option value="juno-1">Juno</option>
+                        <option value="akashnet-2">Akash</option>
+                        <option value="stargaze-1">Stargaze</option>
+                        <option value="chihuahua-1">Chihuahua</option>
+                    </select>
+                </div>
+                <h4>Vote Option</h4>
+                <div class="form-group">
+                    <select name="voteOption" id="voteOption" autocomplete="off" class="form-control">
+                        <option value="1">Yes</option>
+                        <option value="3">No</option>
+                        <option value="4">No With Veto</option>
+                        <option value="2">Abstain</option>
+                    </select>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <button class="btn btn-primary btn-block" type="submit">Auto Vote</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <textarea name="log" id="log" autocomplete="off" class="form-control" rows="15"
+                            style="width:100%;background:black;color:yellow" /></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>
