@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "build": "webpack",
-    "deploy": "npm run build && gh-pages -d dist"
+    "prebuild":"rm -rf dist",
+    "deploy": "npm run prebuild && npm run build && gh-pages -d dist"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.2.1",
