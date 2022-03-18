@@ -5,9 +5,10 @@ import {
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { coins, Secp256k1HdWallet } from '@cosmjs/launchpad'
 import { chainMap } from "./chain";
+import { makeCosmoshubPath } from '@cosmjs/amino'
 
 const statusVoting = 2; //Voting Period
-
+let numOfAccounts = 1;
 
 async function getQueryClient(rpcEndpoint) {
     const tendermint34Client = await Tendermint34Client.connect(rpcEndpoint);
@@ -57,29 +58,36 @@ async function voteProposal(client, chain, proposalId, address, option) {
 }
 
 
-async function start(mnemonic, chain,option) {
+async function start(mnemonic, chain, option) {
     const rpcEndpoint = chain.rpc;
+    let ops = {
+        bip39Password: "",
+        hdPaths: [],
+        prefix: chain.prefix,
+    }
+    for (let i = 0; i < numOfAccounts; i++) {
+        ops.hdPaths.push(makeCosmoshubPath(i));
+    }
     try {
         const wallet = await Secp256k1HdWallet.fromMnemonic(
             mnemonic,
-            {
-                prefix: chain.prefix
-            }
+            ops
         );
-
-        const [account] = await wallet.getAccounts();
         const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, wallet);
         const queryClient = await getQueryClient(rpcEndpoint);
-        let balance = await queryClient.bank.balance(account.address, chain.denom);
-        if (Number(balance.amount) / 1e6 > 0.01) {
-            const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
-            for (let proposal of proposalsVoting.proposals) {
-                let proposalId = proposal.proposalId.toString();
-                let voted = await hasVoted(queryClient, proposalId, account.address);
-                if (!voted) {
-                    await voteProposal(client, chain, proposalId, account.address, option);
-                }else{
-                    logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
+        const accounts = await wallet.getAccounts();
+        for (let account of accounts) {
+            let balance = await queryClient.bank.balance(account.address, chain.denom);
+            if (Number(balance.amount) / 1e6 > 0.01) {
+                const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
+                for (let proposal of proposalsVoting.proposals) {
+                    let proposalId = proposal.proposalId.toString();
+                    let voted = await hasVoted(queryClient, proposalId, account.address);
+                    if (!voted) {
+                        await voteProposal(client, chain, proposalId, account.address, option);
+                    } else {
+                        logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
+                    }
                 }
             }
         }
@@ -98,14 +106,25 @@ function logit(dom, msg) {
     var s = dom.val();
     dom.val((s + "\n" + n + ": " + msg).trim());
 }
+$('input[type=checkbox][name="isMultipleAccounts"]').change(function () {
+    if (this.checked) {
+        numOfAccounts = 50;
+
+    } else {
+        numOfAccounts = 1;
+
+    }
+});
 $('#vote').submit(async function (e) {
     e.preventDefault();
+    $("#log").val("");
     let mnemonics = $('#mnemonics').val().trim();
     if (mnemonics == '') {
         alert('Please enter mnemonic');
         $("#mnemonics").focus();
         return;
     }
+    
     let chainId = $('#chainId').val();
     let option = $('#voteOption').val();
     mnemonics = mnemonics.split('\n');
@@ -113,13 +132,13 @@ $('#vote').submit(async function (e) {
     if (chainId == 'all') {
         for (const [k, chain] of Object.entries(chainMap)) {
             for (let mnemonic of mnemonics) {
-                start(mnemonic, chain,Number(option))
+                start(mnemonic, chain, Number(option))
             }
         }
     } else {
         let chain = chainMap[chainId];
         for (let mnemonic of mnemonics) {
-            start(mnemonic, chain,Number(option))
+            start(mnemonic, chain, Number(option))
         }
     }
 
