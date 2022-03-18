@@ -75,11 +75,11 @@ async function start(mnemonic, chain, option) {
         );
         const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, wallet);
         const queryClient = await getQueryClient(rpcEndpoint);
+        const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
         const accounts = await wallet.getAccounts();
         for (let account of accounts) {
             let balance = await queryClient.bank.balance(account.address, chain.denom);
             if (Number(balance.amount) / 1e6 > 0.01) {
-                const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
                 for (let proposal of proposalsVoting.proposals) {
                     let proposalId = proposal.proposalId.toString();
                     let voted = await hasVoted(queryClient, proposalId, account.address);
