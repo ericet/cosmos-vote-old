@@ -89,6 +89,8 @@ async function start(mnemonic, chain, option) {
                         logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
                     }
                 }
+            }else{
+                logit($('#log'), `${account.address} doesn't have minimum balance to vote`);
             }
         }
     } catch (err) {
