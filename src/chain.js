@@ -1,7 +1,7 @@
 export const chainMap = {
     "cosmoshub-4":{
         name:'cosmos',
-        rpc:'https://cosmoshub.validator.network/',
+        rpc:'https://rpc.cosmos.directory/cosmoshub',
         symbol:'ATOM',
         denom: "uatom",
         exponent: 6,
@@ -11,7 +11,7 @@ export const chainMap = {
     },
     "osmosis-1":{
         name:'osmosis',
-        rpc:'https://osmosis.validator.network/',
+        rpc:'https://rpc.cosmos.directory/osmosis',
         symbol:'OSMO',
         denom: "uosmo",
         exponent: 6,
@@ -21,7 +21,7 @@ export const chainMap = {
     },
     "juno-1":{
         name:'juno',
-        rpc:'https://rpc-juno.itastakers.com',
+        rpc:'https://rpc.cosmos.directory/juno',
         symbol:'JUNO',
         denom: "ujuno",
         exponent: 6,
@@ -31,7 +31,7 @@ export const chainMap = {
     },
     "akashnet-2":{
         name:'akash-network',
-        rpc:'https://rpc.akash.forbole.com:443',
+        rpc:'https://rpc.cosmos.directory/akash',
         symbol:'AKT',
         denom: "uakt",
         exponent: 6,
@@ -42,7 +42,7 @@ export const chainMap = {
     },
     "stargaze-1":{
         name:'stargaze',
-        rpc:'https://rpc.stargaze-apis.com/',
+        rpc:'https://rpc.cosmos.directory/stargaze',
         symbol:'STARS',
         denom: "ustars",
         exponent: 6,
@@ -53,7 +53,7 @@ export const chainMap = {
     },
     "chihuahua-1":{
         name:'chihuahua',
-        rpc:'https://chihuahua-rpc.mercury-nodes.net/',
+        rpc:'https://rpc.cosmos.directory/chihuahua',
         symbol:'HUAHUA',
         denom: "uhuahua",
         exponent: 6,
