@@ -53,7 +53,7 @@ export const chainMap = {
     },
     "chihuahua-1":{
         name:'chihuahua',
-        rpc:'https://rpc.cosmos.directory/chihuahua',
+        rpc:'https://chihuahua-rpc.mercury-nodes.net/',
         symbol:'HUAHUA',
         denom: "uhuahua",
         exponent: 6,
