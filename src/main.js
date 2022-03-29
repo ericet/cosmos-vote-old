@@ -117,6 +117,14 @@ $('input[type=checkbox][name="isMultipleAccounts"]').change(function () {
 
     }
 });
+
+let chainsListHtml='<select name="chainId" id="chainId" autocomplete="off" class="form-control"><option value="all">All Available Chains</option>';
+for (const [k, chain] of Object.entries(chainMap)) {
+    chainsListHtml +=`<option value=${k}>${chain.name}</option>"`
+}
+chainsListHtml+='</select>'
+$('#chainsList').html(chainsListHtml);
+
 $('#vote').submit(async function (e) {
     e.preventDefault();
     $("#log").val("");

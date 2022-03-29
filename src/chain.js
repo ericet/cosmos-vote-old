@@ -1,6 +1,6 @@
 export const chainMap = {
     "cosmoshub-4":{
-        name:'cosmos',
+        name:'Cosmos',
         rpc:'https://rpc.cosmos.directory/cosmoshub',
         symbol:'ATOM',
         denom: "uatom",
@@ -10,7 +10,7 @@ export const chainMap = {
         prefix:"cosmos"
     },
     "osmosis-1":{
-        name:'osmosis',
+        name:'Osmosis',
         rpc:'https://rpc.cosmos.directory/osmosis',
         symbol:'OSMO',
         denom: "uosmo",
@@ -20,7 +20,7 @@ export const chainMap = {
         prefix:"osmo"
     },
     "juno-1":{
-        name:'juno',
+        name:'Juno',
         rpc:'https://rpc.cosmos.directory/juno',
         symbol:'JUNO',
         denom: "ujuno",
@@ -30,7 +30,7 @@ export const chainMap = {
         prefix:"juno"
     },
     "akashnet-2":{
-        name:'akash-network',
+        name:'Akash',
         rpc:'https://rpc.cosmos.directory/akash',
         symbol:'AKT',
         denom: "uakt",
@@ -41,7 +41,7 @@ export const chainMap = {
 
     },
     "stargaze-1":{
-        name:'stargaze',
+        name:'Stargaze',
         rpc:'https://rpc.cosmos.directory/stargaze',
         symbol:'STARS',
         denom: "ustars",
@@ -52,7 +52,7 @@ export const chainMap = {
 
     },
     "chihuahua-1":{
-        name:'chihuahua',
+        name:'Chihuahua',
         rpc:'https://chihuahua-rpc.mercury-nodes.net/',
         symbol:'HUAHUA',
         denom: "uhuahua",
@@ -61,5 +61,16 @@ export const chainMap = {
         gas:80000,
         prefix:"chihuahua"
 
+    },
+    "secret-4":{
+        name:'Secret Network',
+        rpc:'https://secret-4.api.trivium.network:26657/',
+        hd_path:"m/44'/529'/0'/0/0",
+        symbol:'SCRT',
+        denom: "uscrt",
+        exponent: 6,
+        min_tx_fee: "8000",
+        gas:160000,
+        prefix:"secret"
     }
 }
