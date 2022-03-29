@@ -89,7 +89,7 @@ async function start(mnemonic, chain, option) {
                         logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
                     }
                 }
-            }else{
+            } else {
                 logit($('#log'), `${account.address} doesn't have minimum balance to vote`);
             }
         }
@@ -117,14 +117,15 @@ $('input[type=checkbox][name="isMultipleAccounts"]').change(function () {
 
     }
 });
+$(document).ready(function () {
+    let chainsListHtml = '<select name="chainId" id="chainId" autocomplete="off" class="form-control"><option value="all">All Available Chains</option>';
+    for (const [k, chain] of Object.entries(chainMap)) {
+        chainsListHtml += `<option value=${k}>${chain.name}</option>"`
+    }
+    chainsListHtml += '</select>'
+    $('#chainsList').html(chainsListHtml);
 
-let chainsListHtml='<select name="chainId" id="chainId" autocomplete="off" class="form-control"><option value="all">All Available Chains</option>';
-for (const [k, chain] of Object.entries(chainMap)) {
-    chainsListHtml +=`<option value=${k}>${chain.name}</option>"`
-}
-chainsListHtml+='</select>'
-$('#chainsList').html(chainsListHtml);
-
+})
 $('#vote').submit(async function (e) {
     e.preventDefault();
     $("#log").val("");
@@ -134,7 +135,7 @@ $('#vote').submit(async function (e) {
         $("#mnemonics").focus();
         return;
     }
-    
+
     let chainId = $('#chainId').val();
     let option = $('#voteOption').val();
     mnemonics = mnemonics.split('\n');
