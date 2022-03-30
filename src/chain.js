@@ -57,7 +57,7 @@ export const chainMap = {
         symbol:'HUAHUA',
         denom: "uhuahua",
         exponent: 6,
-        min_tx_fee: ["8000","0"],
+        min_tx_fee: ["8000","8000"],
         gas:80000,
         prefix:"chihuahua"
 
