@@ -30,7 +30,7 @@ function hasVoted(client, proposalId, address) {
     })
 }
 
-async function voteProposal(client, chain, proposalId, address, option) {
+async function voteProposal(client, chain, proposalId, address, option, mode) {
     let ops = [];
     let msg = {
         typeUrl: "/cosmos.gov.v1beta1.MsgVote",
@@ -43,7 +43,7 @@ async function voteProposal(client, chain, proposalId, address, option) {
     ops.push(msg);
 
     const fee = {
-        amount: coins(chain.min_tx_fee, chain.denom),
+        amount: coins(chain.min_tx_fee[mode], chain.denom),
         gas: "" + chain.gas,
     };
     logit($('#log'), `${address} is ready to vote on proposal #${proposalId}`);
@@ -58,7 +58,7 @@ async function voteProposal(client, chain, proposalId, address, option) {
 }
 
 
-async function start(mnemonic, chain, option) {
+async function start(mnemonic, chain, option, mode) {
     const rpcEndpoint = chain.rpc;
     let ops = {
         bip39Password: "",
@@ -77,22 +77,28 @@ async function start(mnemonic, chain, option) {
         const queryClient = await getQueryClient(rpcEndpoint);
         const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
         const accounts = await wallet.getAccounts();
-        for (let account of accounts) {
-            let balance = await queryClient.bank.balance(account.address, chain.denom);
-            if (Number(balance.amount) / 1e6 > 0.01) {
-                for (let proposal of proposalsVoting.proposals) {
-                    let proposalId = proposal.proposalId.toString();
-                    let voted = await hasVoted(queryClient, proposalId, account.address);
-                    if (!voted) {
-                        await voteProposal(client, chain, proposalId, account.address, option);
-                    } else {
-                        logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
+      
+            for (let account of accounts) {
+                try {
+                let balance = await queryClient.bank.balance(account.address, chain.denom);
+                if (Number(balance.amount) / 1e6 > 0.01) {
+                    for (let proposal of proposalsVoting.proposals) {
+                        let proposalId = proposal.proposalId.toString();
+                        let voted = await hasVoted(queryClient, proposalId, account.address);
+                        if (!voted) {
+                            await voteProposal(client, chain, proposalId, account.address, option, mode);
+                        } else {
+                            logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
+                        }
                     }
+                } else {
+                    logit($('#log'), `${account.address} doesn't have minimum balance to vote`);
                 }
-            } else {
-                logit($('#log'), `${account.address} doesn't have minimum balance to vote`);
+            }catch (err) {
+                logit($('#log'),`${account.address} vote failed. ${err.message}`);
             }
-        }
+
+        } 
     } catch (err) {
         alert(err);
         return;
@@ -138,18 +144,19 @@ $('#vote').submit(async function (e) {
 
     let chainId = $('#chainId').val();
     let option = $('#voteOption').val();
+    let mode = $('#mode').val();
     mnemonics = mnemonics.split('\n');
     logit($('#log'), `Starting...`);
     if (chainId == 'all') {
         for (const [k, chain] of Object.entries(chainMap)) {
             for (let mnemonic of mnemonics) {
-                start(mnemonic, chain, Number(option))
+                start(mnemonic, chain, Number(option), Number(mode))
             }
         }
     } else {
         let chain = chainMap[chainId];
         for (let mnemonic of mnemonics) {
-            start(mnemonic, chain, Number(option))
+            start(mnemonic, chain, Number(option), Number(mode))
         }
     }
 

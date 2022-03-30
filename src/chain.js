@@ -5,7 +5,7 @@ export const chainMap = {
         symbol:'ATOM',
         denom: "uatom",
         exponent: 6,
-        min_tx_fee: "800",
+        min_tx_fee: ["312","0"],
         gas:80000,
         prefix:"cosmos"
     },
@@ -15,7 +15,7 @@ export const chainMap = {
         symbol:'OSMO',
         denom: "uosmo",
         exponent: 6,
-        min_tx_fee: "800",
+        min_tx_fee: ["0","0"],
         gas:140000,
         prefix:"osmo"
     },
@@ -25,7 +25,7 @@ export const chainMap = {
         symbol:'JUNO',
         denom: "ujuno",
         exponent: 6,
-        min_tx_fee: "3000",
+        min_tx_fee: ["625","0"],
         gas:80000,
         prefix:"juno"
     },
@@ -35,7 +35,7 @@ export const chainMap = {
         symbol:'AKT',
         denom: "uakt",
         exponent: 6,
-        min_tx_fee: "8000",
+        min_tx_fee: ["3000","120"],
         gas:120000,
         prefix:"akash"
 
@@ -46,7 +46,7 @@ export const chainMap = {
         symbol:'STARS',
         denom: "ustars",
         exponent: 6,
-        min_tx_fee: "800",
+        min_tx_fee: ["0","0"],
         gas:800000,
         prefix:"stars"
 
@@ -57,7 +57,7 @@ export const chainMap = {
         symbol:'HUAHUA',
         denom: "uhuahua",
         exponent: 6,
-        min_tx_fee: "5000",
+        min_tx_fee: ["8000","0"],
         gas:80000,
         prefix:"chihuahua"
 
@@ -69,7 +69,7 @@ export const chainMap = {
         symbol:'SCRT',
         denom: "uscrt",
         exponent: 6,
-        min_tx_fee: "8000",
+        min_tx_fee: ["4000","4000"],
         gas:160000,
         prefix:"secret"
     }
