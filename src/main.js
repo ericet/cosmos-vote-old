@@ -6,6 +6,8 @@ import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
 import { coins, Secp256k1HdWallet } from '@cosmjs/launchpad'
 import { chainMap } from "./chain";
 import { makeCosmoshubPath } from '@cosmjs/amino'
+import { stringToPath } from "@cosmjs/crypto";
+import { LCDClient, MnemonicKey, MsgVote, Fee } from '@terra-money/terra.js';
 
 const statusVoting = 2; //Voting Period
 let numOfAccounts = 1;
@@ -57,6 +59,32 @@ async function voteProposal(client, chain, proposalId, address, option, mode) {
 
 }
 
+//For terra only
+async function voteProposalTerra(terra, wallet, chain, proposalId, address, option, mode) {
+    const vote = new MsgVote(proposalId, address, option);
+    let minFee = chain.min_tx_fee[mode];
+    const fee = new Fee(chain.gas, { uluna: minFee })
+    logit($('#log'), `${address} is ready to vote on ${chain.name} proposal #${proposalId}`);
+    wallet.createAndSignTx({
+        msgs: [vote],
+        fee: fee,
+        memo: ''
+    }).then(tx => terra.tx.broadcast(tx))
+        .then(result => {
+            console.log(result)
+            if (result.code > 0) {
+                logit($('#log'), `${address} vote failed: ${result.raw_log}`);
+
+            } else {
+                logit($('#log'), `${address} voted ${chain.name} proposal #${proposalId}`);
+
+            }
+        }).catch(err => {
+            console.log(err)
+            logit($('#log'), `${address} failed to vote on ${chain.name} proposal #${proposalId}`);
+        });
+
+}
 
 async function start(mnemonic, chain, option, mode) {
     const rpcEndpoint = chain.rpc;
@@ -66,7 +94,8 @@ async function start(mnemonic, chain, option, mode) {
         prefix: chain.prefix,
     }
     for (let i = 0; i < numOfAccounts; i++) {
-        ops.hdPaths.push(makeCosmoshubPath(i));
+        let hdpath = chain.hd_path ? stringToPath(chain.hd_path + "" + i) : makeCosmoshubPath(i);
+        ops.hdPaths.push(hdpath);
     }
     try {
         const wallet = await Secp256k1HdWallet.fromMnemonic(
@@ -77,16 +106,29 @@ async function start(mnemonic, chain, option, mode) {
         const queryClient = await getQueryClient(rpcEndpoint);
         const proposalsVoting = await queryClient.gov.proposals(statusVoting, "", "");
         const accounts = await wallet.getAccounts();
-      
-            for (let account of accounts) {
-                try {
+
+        for (let account of accounts) {
+            try {
                 let balance = await queryClient.bank.balance(account.address, chain.denom);
                 if (Number(balance.amount) / 1e6 > 0.01) {
                     for (let proposal of proposalsVoting.proposals) {
                         let proposalId = proposal.proposalId.toString();
                         let voted = await hasVoted(queryClient, proposalId, account.address);
                         if (!voted) {
-                            await voteProposal(client, chain, proposalId, account.address, option, mode);
+                            if (chain.name == "Terra") {
+                                const terra = new LCDClient({
+                                    URL: chain.rest,
+                                    chainID: chain.chain_id,
+                                });
+                                const mk = new MnemonicKey({
+                                    mnemonic: mnemonic
+                                });
+                                const wallet = terra.wallet(mk);
+                                await voteProposalTerra(terra, wallet, chain, proposalId, account.address, option, mode);
+
+                            } else {
+                                await voteProposal(client, chain, proposalId, account.address, option, mode);
+                            }
                         } else {
                             logit($('#log'), `${account.address} has already voted on proposal #${proposalId}`);
                         }
@@ -94,11 +136,11 @@ async function start(mnemonic, chain, option, mode) {
                 } else {
                     logit($('#log'), `${account.address} doesn't have minimum balance to vote`);
                 }
-            }catch (err) {
-                logit($('#log'),`${account.address} vote failed. ${err.message}`);
+            } catch (err) {
+                logit($('#log'), `${account.address} vote failed. ${err.message}`);
             }
 
-        } 
+        }
     } catch (err) {
         alert(err);
         return;
@@ -116,11 +158,10 @@ function logit(dom, msg) {
 }
 $('input[type=checkbox][name="isMultipleAccounts"]').change(function () {
     if (this.checked) {
-        numOfAccounts = 50;
+        document.getElementById("maxNum").disabled = false;
 
     } else {
-        numOfAccounts = 1;
-
+        document.getElementById("maxNum").disabled = true;
     }
 });
 $(document).ready(function () {
@@ -135,6 +176,11 @@ $(document).ready(function () {
 $('#vote').submit(async function (e) {
     e.preventDefault();
     $("#log").val("");
+    if ( document.getElementById("isMultipleAccounts").checked) {
+        numOfAccounts = $('#maxNum').val().trim();
+    } else {
+        numOfAccounts = 1;
+    }
     let mnemonics = $('#mnemonics').val().trim();
     if (mnemonics == '') {
         alert('Please enter mnemonic');

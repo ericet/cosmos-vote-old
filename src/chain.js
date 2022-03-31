@@ -65,12 +65,25 @@ export const chainMap = {
     "secret-4":{
         name:'Secret Network',
         rpc:'https://secret-4.api.trivium.network:26657/',
-        hd_path:"m/44'/529'/0'/0/0",
+        hd_path:"m/44'/529'/0'/0/",
         symbol:'SCRT',
         denom: "uscrt",
         exponent: 6,
         min_tx_fee: ["4000","4000"],
         gas:160000,
         prefix:"secret"
+    },
+    "columbus-5":{
+        chain_id:'columbus-5',
+        name:'Terra',
+        rpc:'https://anyplace-cors.herokuapp.com/https://terra-rpc.easy2stake.com',
+        rest:'https://lcd.terra.dev',
+        hd_path:"m/44'/330'/0'/0/",
+        symbol:'LUNA',
+        denom: "uluna",
+        exponent: 6,
+        min_tx_fee: ["4000","2000"],
+        gas:160000,
+        prefix:"terra"
     }
 }

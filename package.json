@@ -25,6 +25,7 @@
     "@cosmjs/proto-signing": "^0.27.1",
     "@cosmjs/stargate": "^0.27.1",
     "@cosmjs/tendermint-rpc": "^0.27.1",
+    "@terra-money/terra.js": "^3.0.9",
     "axios": "^0.25.0",
     "node-fetch": "^3.2.0",
     "tendermint": "^5.0.2"
