@@ -88,7 +88,7 @@ export const chainMap = {
     },
     "crescent-1":{
         chain_id:'crescent-5',
-        name:'crescent',
+        name:'Crescent',
         rpc:'https://anyplace-cors.herokuapp.com/https://crescent-rpc.polkachu.com/',
         symbol:'CRE',
         denom: "ucre",
