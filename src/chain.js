@@ -85,5 +85,16 @@ export const chainMap = {
         min_tx_fee: ["4000","2000"],
         gas:160000,
         prefix:"terra"
+    },
+    "crescent-1":{
+        chain_id:'crescent-5',
+        name:'crescent',
+        rpc:'https://anyplace-cors.herokuapp.com/https://crescent-rpc.polkachu.com/',
+        symbol:'CRE',
+        denom: "ucre",
+        exponent: 6,
+        min_tx_fee: ["0","0"],
+        gas:160000,
+        prefix:"cre"
     }
 }
