@@ -11,4 +11,4 @@ Cosmos生态自动批量投票网页版 自动找开放的提案，自动投票 
 
 网页版是为了让那些不懂运行脚本的人使用起来方便，如果你是进阶玩家，可以使用https://github.com/ericet/cosmos-learn 库里的getProposalsAndVote.js 运行
 
-**由于需要使用助记词，所以风险自负**
+# 由于需要使用助记词，所以风险自负
